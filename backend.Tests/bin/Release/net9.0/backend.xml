@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>backend</name>
+    </assembly>
+    <members>
+        <member name="T:backend.Controllers.FormsController">
+            <summary>
+            Form submission controller
+            </summary>
+            <param name="formStorageService">Form submission service</param>
+        </member>
+        <member name="M:backend.Controllers.FormsController.#ctor(backend.Services.FormSubmission.IFormSubmissionService)">
+            <summary>
+            Form submission controller
+            </summary>
+            <param name="formStorageService">Form submission service</param>
+        </member>
+        <member name="M:backend.Controllers.FormsController.SubmitForm(System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Submits a form
+            </summary>
+            <param name="submission">Form to submit</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>Newly created submission id</returns>
+        </member>
+        <member name="M:backend.Controllers.FormsController.GetSubmissions(System.String,System.Threading.CancellationToken)">
+            <summary>
+            Gets sumbissions filtered by criteria, or all submissions if criteria not provided
+            </summary>
+            <param name="searchCriteria">Search criteria</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>List of submissions</returns>
+        </member>
+        <member name="T:backend.Services.FormSubmission.FormSubmissionRepository">
+            <summary>
+            Implementation of an in-memory form repository
+            </summary>
+        </member>
+        <member name="M:backend.Services.FormSubmission.FormSubmissionRepository.SaveAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Saves form data to in-memory storage
+            </summary>
+            <param name="formData">Form data to save</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>Newly created submission id</returns>
+        </member>
+        <member name="M:backend.Services.FormSubmission.FormSubmissionRepository.GetSubmissionsAsync(System.Threading.CancellationToken,System.String)">
+            <summary>
+            Gets sumbissions filtered by criteria, or all submissions if criteria not provided
+            </summary>
+            <param name="searchCriteria">Search criteria</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>List of submitted forms</returns>
+        </member>
+        <member name="T:backend.Services.FormSubmission.FormSubmissionService">
+            <summary>
+            Form submission service
+            </summary>
+            <param name="formRepository"></param>
+        </member>
+        <member name="M:backend.Services.FormSubmission.FormSubmissionService.#ctor(backend.Services.FormSubmission.IFormSubmissionRepository)">
+            <summary>
+            Form submission service
+            </summary>
+            <param name="formRepository"></param>
+        </member>
+        <member name="M:backend.Services.FormSubmission.FormSubmissionService.SubmitFormAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Submits form asynchronously
+            </summary>
+            <param name="formData">Form to submit</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>Newly created submission id</returns>
+        </member>
+        <member name="M:backend.Services.FormSubmission.FormSubmissionService.GetSubmissionsAsync(System.Threading.CancellationToken,System.String)">
+            <summary>
+            Gets sumbissions filtered by criteria, or all submissions if criteria not provided
+            </summary>
+            <param name="searchCriteria">Search criteria</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>List of submitted forms</returns>
+        </member>
+        <member name="T:backend.Services.FormSubmission.IFormSubmissionRepository">
+            <summary>
+            Interface for handling form storage
+            </summary>
+        </member>
+        <member name="M:backend.Services.FormSubmission.IFormSubmissionRepository.SaveAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Saves form data
+            </summary>
+            <param name="formData">Form data to save</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>Newly created submission id</returns>
+        </member>
+        <member name="M:backend.Services.FormSubmission.IFormSubmissionRepository.GetSubmissionsAsync(System.Threading.CancellationToken,System.String)">
+            <summary>
+            Gets sumbissions filtered by criteria, or all submissions if criteria not provided
+            </summary>
+            <param name="searchCriteria">Search criteria</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>List of submitted forms</returns>
+        </member>
+        <member name="T:backend.Services.FormSubmission.IFormSubmissionService">
+            <summary>
+            Interface for form submission service
+            </summary>
+        </member>
+        <member name="M:backend.Services.FormSubmission.IFormSubmissionService.SubmitFormAsync(System.Collections.Generic.Dictionary{System.String,System.Object},System.Threading.CancellationToken)">
+            <summary>
+            Submits form asynchronously
+            </summary>
+            <param name="formData">Form to submit</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>Newly created submission id</returns>
+        </member>
+        <member name="M:backend.Services.FormSubmission.IFormSubmissionService.GetSubmissionsAsync(System.Threading.CancellationToken,System.String)">
+            <summary>
+            Gets sumbissions filtered by criteria, or all submissions if criteria not provided
+            </summary>
+            <param name="searchCriteria">Search criteria</param>
+            <param name="cancellationToken">Operation cancel token</param>
+            <returns>List of submitted forms</returns>
+        </member>
+    </members>
+</doc>

@@ -1,0 +1,105 @@
+@use 'variables';
+
+.form-container {
+  background: variables.$form-bg;
+  padding: variables.$padding-lg;
+  border-radius: variables.$border-radius-lg;
+  box-shadow: variables.$form-box-shadow;
+  width: variables.$form-width;
+  max-width: variables.$max-width;
+  margin: variables.$form-margin;
+
+    h2 {
+        text-align: center;
+        margin-bottom: variables.$padding-lg;
+        font-size: variables.$font-size-h2;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: variables.$padding-md;
+
+        label {
+            font-weight: bold;
+            margin-bottom: variables.$padding-sm;
+        }
+
+        input, select {
+            padding: variables.$padding-md;
+            border: variables.$border-radius-xs solid variables.$input-border-color;
+            border-radius: variables.$border-radius-md;
+            font-size: variables.$font-size-text;
+            transition: border-color variables.$transition-speed ease;
+
+        &:focus {
+            border-color: variables.$focus-border-color;
+            outline: none;
+        }
+        }
+
+        .error-message {
+            color: variables.$error-color;
+            font-size: variables.$font-size-error;
+            margin-top: variables.$padding-sm;
+        }
+    }
+
+    .radio-group, .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: variables.$padding-md;
+
+        input {
+            transform: scale(1.2);
+        }
+    }
+
+    button {
+        display: flex;
+        margin: auto;
+        background: variables.$button-bg;
+        color: variables.$form-bg;
+        border: none;
+        padding: variables.$padding-md;
+        font-size: variables.$font-size-text;
+        border-radius: variables.$border-radius-md;
+        cursor: pointer;
+        transition: background variables.$transition-speed ease-in-out;
+
+        &:hover {
+            background: variables.$button-hover;
+        }
+    }
+    .results {
+        margin-top: variables.$padding-lg;
+        animation: variables.$animation-fade;
+    }
+    
+    .fade-in {
+        animation: variables.$animation-fade;
+    }
+
+    .error {
+        animation: variables.$animation-shake;
+    }
+
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes shake {
+        0% { transform: translateX(0); }
+        25% { transform: translateX(-5px); }
+        50% { transform: translateX(5px); }
+        75% { transform: translateX(-5px); }
+        100% { transform: translateX(0); }
+    }
+}
