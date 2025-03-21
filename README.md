@@ -1,5 +1,4 @@
 # Test task for some company
-Part 1 
 You need to develop a tiny application for submitting web forms, storing submissions, listing and searching them.  
   1. Create an arbitrary form with CSS and Vue as a JavaScript framework. Say, a contact or order form with at least five fields of different types: text, drop-down, date, radio, checkbox. 
   
@@ -19,7 +18,4 @@ You need to develop a tiny application for submitting web forms, storing submiss
   
  
 The test task is quite basic but consider it as a real-life application. Thus, try to create good architecture and level of abstraction. We will evaluate the quality of your code, your tool chain, usability of the UI and the architecture in general.   
-
-Part 2 
-Now, let's imagine the web forms support large attachments (~100MB). Describe in text how to handle storage and downloads from the submissions list, considering thousands of submissions with multiple attachments each. Include architecture, data structure, and REST API.
  
