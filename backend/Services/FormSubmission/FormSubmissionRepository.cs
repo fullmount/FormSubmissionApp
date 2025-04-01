@@ -5,49 +5,66 @@
     /// </summary>
     public class FormSubmissionRepository : IFormSubmissionRepository
     {
-        private readonly List<Dictionary<string, object>> _submissions = [];
-        private int _idCounter = 0;
+        private static readonly ConcurrentDictionary<int, Dictionary<string, object>> _storage = 
+            new ConcurrentDictionary<int, Dictionary<string, object>>();
+        private static int _currentId = 0;
+        private const int MAX_STORAGE_SIZE = 10000;
 
         /// <summary>
         /// Saves form data to in-memory storage
         /// </summary>
-        /// <param name="formData">Form data to save</param>
-        /// <param name="cancellationToken">Operation cancel token</param>
+        /// <param name="form">Form data to save</param>
+        /// <param name="token">Operation cancel token</param>
         /// <returns>Newly created submission id</returns>
-        public async Task<int> SaveAsync(Dictionary<string, object> formData, CancellationToken cancellationToken)
+        public async Task<int> SaveAsync(Dictionary<string, object> form, CancellationToken token)
         {
-            if (cancellationToken.IsCancellationRequested)
+            if (_storage.Count >= MAX_STORAGE_SIZE)
             {
-                return await Task.FromCanceled<int>(cancellationToken);
+                throw new StorageLimitExceededException($"Storage limit of {MAX_STORAGE_SIZE} items reached");
             }
-            return await Task.Run(() =>
+
+            token.ThrowIfCancellationRequested();
+
+            var id = Interlocked.Increment(ref _currentId);
+            form["Id"] = id;
+
+            if (!_storage.TryAdd(id, form))
             {
-                formData["Id"] = ++_idCounter;
-                _submissions.Add(formData);
-                return Task.FromResult((int)formData["Id"]);
-            });
+                throw new ConcurrentOperationException("Failed to add form due to concurrent operation");
+            }
+
+            return id;
         }
 
         /// <summary>
         /// Gets sumbissions filtered by criteria, or all submissions if criteria not provided
         /// </summary>
-        /// <param name="searchCriteria">Search criteria</param>
-        /// <param name="cancellationToken">Operation cancel token</param>
+        /// <param name="token">Operation cancel token</param>
+        /// <param name="searchTerm">Search term</param>
         /// <returns>List of submitted forms</returns>
-        public async Task<List<Dictionary<string, object>>> GetSubmissionsAsync(CancellationToken cancellationToken, string? searchCriteria = null)
+        public async Task<List<Dictionary<string, object>>> GetSubmissionsAsync(
+            CancellationToken token,
+            string? searchTerm = null)
         {
-            return await Task.Run(() =>
+            token.ThrowIfCancellationRequested();
+
+            if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                if (searchCriteria is null) return Task.FromResult(_submissions);
-                return Task.FromResult<List<Dictionary<string, object>>>(
-                    [.. _submissions.Where(
-                        sub => sub.Values.Any(
-                            value => value.ToString()?.Contains(
-                                searchCriteria, StringComparison.OrdinalIgnoreCase) == true
-                        )
-                    )]
-                );
-            });
+                return _storage.Values.ToList();
+            }
+
+            var searchTerms = searchTerm.ToLower().Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            
+            return _storage.Values
+                .Where(form => ContainsSearchTerms(form, searchTerms))
+                .ToList();
+        }
+
+        private static bool ContainsSearchTerms(Dictionary<string, object> form, string[] searchTerms)
+        {
+            return searchTerms.All(term =>
+                form.Values.Any(value => 
+                    value?.ToString()?.Contains(term, StringComparison.OrdinalIgnoreCase) == true));
         }
     }
 }
